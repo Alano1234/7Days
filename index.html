@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4efe9">
+<title>7 DAYS WITH YOUR ROOMMATE</title>
+<style>
+:root{
+  --bg:#e9e2da;--paper:#fdfaf5;--paper2:#f4eee7;--ink:#282624;--muted:#827a73;
+  --line:#ded4ca;--shadow:0 24px 60px rgba(53,43,36,.16);--dark:#2d2927;
+  --m:#8f7aa1;--n:#a78372;--r:#d99aaf;--you:#657a88;--green:#728a77;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#eee8e1 0%,#e4ddd4 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif}
+body{overflow-x:hidden}.app{min-height:100vh;padding:14px 12px 20px}.shell{max-width:980px;margin:0 auto}
+button,input{font:inherit}.btn{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 13px;text-align:left;color:var(--ink);cursor:pointer;transition:.15s;box-shadow:0 5px 12px rgba(40,32,28,.04)}.btn:active{transform:scale(.985)}.btn.primary{background:var(--dark);border-color:var(--dark);color:#fff}.btn.ghost{background:rgba(255,255,255,.45);box-shadow:none}.btn:disabled{opacity:.42;pointer-events:none}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 10px}.brand{font-size:11px;letter-spacing:.15em;font-weight:900;color:#706860}.statusmini{font-size:10px;color:var(--muted);font-weight:700}
+.card{background:rgba(253,250,245,.88);border:1px solid rgba(222,212,202,.92);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+/* start */
+.start{min-height:calc(100vh - 60px);display:grid;place-items:center}.start-card{width:min(720px,100%);padding:25px}.logo{font-size:13px;letter-spacing:.16em;font-weight:900;color:#766c64}.start-title{font-size:clamp(40px,9vw,78px);line-height:.95;font-weight:950;letter-spacing:-.045em;margin:18px 0 14px;max-width:680px}.start-sub{font-size:16px;line-height:1.7;color:#625a54;max-width:620px}.start-note{margin-top:18px;padding:14px 15px;border:1px solid var(--line);border-radius:18px;background:#fff;font-size:12px;line-height:1.65;color:#645c56}.start-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:18px}.tiny{font-size:11px;color:var(--muted);line-height:1.65}
+/* setup */
+.setup{padding:25px}.setup-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.setup-step{font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:900}.setup h1{margin:7px 0 7px;font-size:30px;line-height:1.05}.setup p{color:#675e57;line-height:1.7;margin:0}.name-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}.field{width:100%;border:1px solid var(--line);background:#fff;border-radius:15px;padding:13px;outline:none}.label-sm{font-size:11px;color:var(--muted);font-weight:800;margin:14px 0 7px}.gender{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.gender .btn.active,.choice.active{border-color:var(--dark);background:#f0ebe5;box-shadow:inset 0 0 0 1px var(--dark)}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.choice{min-height:105px;position:relative}.choice strong{display:block;font-size:14px}.choice span{display:block;font-size:11px;color:var(--muted);line-height:1.55;margin-top:5px}.choice .mark{position:absolute;right:10px;top:10px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;border:1px solid var(--line)}.choice.active .mark{background:var(--dark);color:#fff;border-color:var(--dark)}
+/* game shell */
+.game{display:none}.game.active{display:block}.game-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.dayline{display:flex;align-items:center;gap:10px}.day{font-size:12px;font-weight:950;letter-spacing:.08em}.time{font-size:11px;color:var(--muted);font-weight:800}.progress{height:5px;width:110px;background:#d9d0c7;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:#4b4744;width:0}.game-actions-top{display:flex;gap:7px}.iconbtn{width:38px;height:38px;padding:0;border:1px solid var(--line);background:rgba(255,255,255,.58);border-radius:13px;display:grid;place-items:center;cursor:pointer}
+/* room */
+.room{position:relative;height:min(66vh,590px);min-height:470px;overflow:hidden;border-radius:27px;border:1px solid #d9cec3;box-shadow:var(--shadow);background:#d9d0c7}
+.wall{position:absolute;inset:0;background:linear-gradient(180deg,#e9e2da 0 67%,#cbbeb2 67% 100%)}
+.ceiling{position:absolute;left:0;right:0;top:0;height:55px;background:linear-gradient(180deg,#f2ece5,#e9e2db);opacity:.85}
+.window{position:absolute;top:48px;left:6%;width:34%;height:27%;background:linear-gradient(180deg,#c9d9dc,#eef3ef 65%,#c6d0c7);border:9px solid #d9d0c7;border-radius:13px;box-shadow:0 9px 20px rgba(49,43,37,.09) inset}.window:before{content:"";position:absolute;top:0;bottom:0;left:50%;width:4px;background:#d9d0c7}.window:after{content:"";position:absolute;left:0;right:0;top:58%;height:4px;background:#d9d0c7}.view{position:absolute;left:8%;bottom:8%;font-size:10px;color:#65716f;opacity:.7;letter-spacing:.04em}
+.rug{position:absolute;left:21%;bottom:8%;width:57%;height:30%;background:#b9aaa0;border-radius:50%;opacity:.5;transform:rotate(-2deg)}
+.sofa{position:absolute;left:10%;bottom:20%;width:45%;height:26%;border-radius:22px 22px 12px 12px;background:#8c7e77;box-shadow:0 12px 18px rgba(56,44,37,.12)}.sofa:before{content:"";position:absolute;left:3%;right:3%;top:-18%;height:31%;border-radius:18px 18px 8px 8px;background:#9a8b83}.sofa .cush{position:absolute;width:28%;height:45%;top:14%;border-radius:10px;background:#aa9b92}.sofa .c1{left:5%}.sofa .c2{left:36%}.sofa .c3{left:67%}
+.table{position:absolute;right:10%;bottom:22%;width:26%;height:17%;background:#856e60;border-radius:14px;box-shadow:0 12px 20px rgba(49,39,32,.13)}.table:before{content:"";position:absolute;left:4%;right:4%;top:-13%;height:28%;background:#9a8272;border-radius:13px}.leg{position:absolute;width:8px;height:62%;top:57%;background:#6e5a4e;border-radius:3px}.l1{left:12%}.l2{right:12%}.mug{position:absolute;right:18%;top:12%;width:20px;height:15px;border:3px solid #eee8df;border-radius:4px}.mug:after{content:"";position:absolute;right:-8px;top:2px;width:6px;height:7px;border:2px solid #eee8df;border-left:0;border-radius:0 5px 5px 0}
+.kitchen{position:absolute;right:0;top:11%;width:25%;height:50%;background:#d0c6bb;border-left:1px solid #c0b3a8}.cab{position:absolute;left:9%;right:9%;height:32px;background:#e8e0d6;border:1px solid #c5b9ae;border-radius:6px}.cab.a{top:9%}.cab.b{top:22%}.counter{position:absolute;left:7%;right:7%;top:37%;height:58px;background:#9c8d81;border-radius:7px}.sink{position:absolute;left:10%;top:39%;width:45px;height:22px;background:#77706a;border-radius:7px}.fridge{position:absolute;right:7%;bottom:7%;width:38%;height:40%;background:#e8e1da;border-radius:8px;border:1px solid #c8bbb0}.fridge:before{content:"";position:absolute;left:16px;top:0;bottom:0;width:1px;background:#d0c4b8}.fridge:after{content:"";position:absolute;left:30%;top:33%;width:3px;height:38px;background:#aaa095;border-radius:5px}
+.door{position:absolute;width:13%;height:38%;bottom:12%;background:#8a7567;border-radius:12px 12px 5px 5px;box-shadow:inset 0 0 0 5px rgba(239,229,220,.18)}.door .handle{position:absolute;right:10%;top:50%;width:6px;height:6px;border-radius:50%;background:#d7c0a5}.d1{left:61%}.d2{left:77%}
+.plant{position:absolute;left:4%;bottom:11%;width:9%;height:24%}.pot{position:absolute;bottom:0;left:23%;width:55%;height:28%;background:#9a7463;border-radius:0 0 11px 11px}.leaf{position:absolute;width:48%;height:45%;background:#72866f;border-radius:80% 10% 80% 10%;transform-origin:bottom center;bottom:22%;left:26%}.leaf.l{transform:rotate(-30deg)}.leaf.r{transform:rotate(28deg)}.leaf.c{height:54%;transform:rotate(0deg)}
+.clockboard{position:absolute;top:10%;right:31%;padding:8px 10px;border:1px solid #d0c4ba;background:rgba(255,252,247,.7);border-radius:10px;font-size:10px;color:#8b8179}.clockboard b{display:block;font-size:16px;color:#3f3935;margin-top:2px}
+.hotspot{position:absolute;z-index:4;border:0;background:transparent;padding:0;cursor:pointer}.hotspot:after{content:"";position:absolute;inset:-7px;border-radius:20px;border:1px dashed transparent;transition:.15s}.hotspot:hover:after{border-color:rgba(57,51,47,.25);background:rgba(255,255,255,.04)}.hotlabel{position:absolute;left:50%;transform:translateX(-50%);top:-28px;white-space:nowrap;padding:5px 8px;background:rgba(42,38,35,.82);color:white;border-radius:8px;font-size:9px;opacity:0;pointer-events:none;transition:.15s}.hotspot:hover .hotlabel{opacity:1}
+.hs-sofa{left:10%;bottom:20%;width:45%;height:27%}.hs-table{right:9%;bottom:21%;width:29%;height:20%}.hs-kitchen{right:0;top:13%;width:26%;height:48%}.hs-milo-door{left:61%;bottom:12%;width:13%;height:39%}.hs-nora-door{left:77%;bottom:12%;width:13%;height:39%}.hs-window{left:5%;top:45px;width:36%;height:29%}.hs-rabbit{left:46%;bottom:28%;width:14%;height:20%}.hs-phone{left:43%;top:80%;width:14%;height:11%}
+.char{position:absolute;z-index:5;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:.18s}.char:active{transform:translateY(2px)}.char-bubble{font-size:9px;background:rgba(253,250,245,.94);border:1px solid var(--line);border-radius:10px;padding:5px 8px;box-shadow:0 7px 14px rgba(45,37,32,.08);max-width:120px;text-align:center}.char-body{width:56px;height:68px;border-radius:22px 22px 18px 18px;position:relative;box-shadow:0 10px 15px rgba(45,36,31,.12)}.char-body:before{content:"";position:absolute;width:31px;height:31px;border-radius:50%;left:12px;top:-13px;background:#e9ded1;border:2px solid rgba(65,55,48,.18)}.char-body:after{content:"";position:absolute;width:14px;height:5px;border-radius:99px;left:21px;top:15px;border-top:2px solid rgba(40,34,31,.7)}.char.milo{left:43%;bottom:29%}.char.milo .char-body{background:#8e7aa0}.char.nora{right:18%;bottom:35%}.char.nora .char-body{background:#9f7a6b}.char.rabbit{left:49%;bottom:19%}.char.rabbit .char-body{width:42px;height:31px;border-radius:60% 60% 52% 52%;background:#fff1f6}.char.rabbit .char-body:before{width:17px;height:27px;border-radius:60% 60% 30% 30%;left:1px;top:-21px;background:#fff4f8;border:2px solid #e4c6d2;box-shadow:17px 0 0 -1px #fff4f8,18px -1px 0 1px #e4c6d2}.char.rabbit .char-body:after{width:7px;height:4px;left:24px;top:12px;border-top:0;background:#6a4c54}.char.you{left:28%;bottom:20%}.char.you .char-body{background:#6e8490}
+.room-tag{position:absolute;left:16px;top:16px;z-index:6;padding:8px 10px;border-radius:11px;background:rgba(255,252,247,.7);border:1px solid rgba(222,212,202,.8);font-size:9px;color:#736b64;font-weight:800;letter-spacing:.04em}.room-title{position:absolute;left:16px;top:47px;z-index:6;font-size:23px;font-weight:950;letter-spacing:-.03em}.room-sub{position:absolute;left:17px;top:77px;z-index:6;color:#766d67;font-size:10px}
+/* lower */
+.below{display:grid;grid-template-columns:1.35fr .65fr;gap:10px;margin-top:10px}.control-card,.side-card{padding:13px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.section-head strong{font-size:12px}.hint{font-size:9px;color:var(--muted)}.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tick{border:1px solid var(--line);background:rgba(255,255,255,.52);border-radius:12px;padding:8px 6px;text-align:center}.tick.on{background:var(--dark);color:#fff;border-color:var(--dark)}.tick.done{opacity:.55}.tick small{display:block;font-size:8px;opacity:.7}.tick b{font-size:10px}.actionrow{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.actionrow .btn{min-height:58px}.next-row{margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}.turn-note{font-size:10px;color:#736b64;line-height:1.45}.next{width:46%;text-align:center}
+.side-list{display:flex;gap:6px;overflow:auto}.mini{min-width:105px;border:1px solid var(--line);background:#fff;border-radius:13px;padding:8px}.mini-top{display:flex;align-items:center;gap:6px}.dot{width:24px;height:24px;border-radius:9px;display:grid;place-items:center;font-size:9px;font-weight:900}.mini strong{font-size:11px}.mini p{font-size:9px;color:var(--muted);margin:6px 0 0;line-height:1.45}.memory-strip{margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:13px;padding:8px 9px;font-size:10px;line-height:1.5}.memory-strip b{display:block;font-size:9px;color:var(--muted);margin-bottom:3px}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(29,25,22,.43);display:none;align-items:flex-end;justify-content:center;padding:9px;z-index:20}.modal.show{display:flex}.sheet{width:min(760px,100%);max-height:90vh;overflow:auto;background:var(--paper);border-radius:25px 25px 15px 15px;padding:18px;box-shadow:0 30px 70px rgba(0,0,0,.25)}.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.sheet-title{font-size:20px;font-weight:950;letter-spacing:-.02em}.close{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff}.scene-copy{font-size:14px;line-height:1.75;color:#453e39}.scene-copy p{margin:10px 0}.scene-copy .say{padding:11px 12px;background:#f3eee8;border:1px solid var(--line);border-radius:15px}.event-choices{display:grid;gap:8px;margin-top:14px}.event-choice{padding:13px 14px;border-radius:16px;border:1px solid var(--line);background:#fff;text-align:left}.event-choice strong{font-size:13px}.event-choice span{display:block;font-size:10px;color:var(--muted);margin-top:4px;line-height:1.45}.pill{display:inline-flex;padding:4px 7px;border-radius:999px;background:#eee7df;color:#6e645d;font-size:9px;font-weight:900}.meterless{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.meterless .box{border:1px solid var(--line);background:#fff;border-radius:13px;padding:10px}.box small{display:block;color:var(--muted);font-size:9px}.box b{display:block;font-size:12px;margin-top:2px}
+/* toast */
+.toast{position:fixed;left:50%;bottom:19px;transform:translateX(-50%) translateY(10px);opacity:0;background:#2c2825;color:#fff;border-radius:999px;padding:9px 14px;font-size:11px;z-index:30;transition:.2s;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){.below{grid-template-columns:1fr}.room{height:68vh;min-height:515px}.start-title{font-size:52px}.window{left:4%;width:38%}.kitchen{width:27%}.char.milo{left:42%}.char.nora{right:17%}.hs-milo-door{left:59%;width:14%}.hs-nora-door{left:77%;width:13%}}
+@media(max-width:520px){.app{padding:10px 8px 16px}.card{border-radius:22px}.room{min-height:510px;height:67vh}.room-title{font-size:20px}.room-sub{font-size:9px}.below{gap:8px}.actionrow{grid-template-columns:1fr}.next{width:50%}.name-row{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr 1fr}.char-bubble{font-size:8px;max-width:92px}.char-body{width:50px;height:62px}.char.milo{left:42%}.char.nora{right:15%}.char.you{left:25%}.char.rabbit{left:51%}}
+</style>
+</head>
+<body>
+<div class="app"><div class="shell">
+  <div class="topbar"><div class="brand">7 DAYS WITH YOUR ROOMMATE</div><div class="statusmini" id="saveState">LOCAL SAVE</div></div>
+
+  <div id="startScreen" class="start">
+    <div class="card start-card">
+      <div class="logo">A SMALL LIFE GAME</div>
+      <div class="start-title">Seven days.<br>One apartment.<br>People you haven't figured out yet.</div>
+      <div class="start-sub">这不是人格测试，也不是“选完答案就结束”的剧情。你会真的住进这个地方。你可以去找人，也可以不找。你做过的事、说过的话，以及你偷偷记住的小习惯，会慢慢变成这一周的一部分。</div>
+      <div class="start-note"><strong>你会看到什么？</strong><br>可点击房间 · 自己安排行动 · 人物自己生活 · 随机小事 · 隐藏记忆 · 一点点不太正常的东西。</div>
+      <div class="start-actions"><button class="btn primary" id="startBtn">住进去</button><button class="btn ghost" id="demoBtn">先看看房间长什么样</button></div>
+    </div>
+  </div>
+
+  <div id="setupScreen" class="card setup" style="display:none"></div>
+
+  <div id="gameScreen" class="game">
+    <div class="game-head">
+      <div class="dayline"><div class="day" id="dayText">WEEK 1 · DAY 1</div><div class="time" id="timeText">08:30 · 上午</div><div class="progress"><i id="dayProgress"></i></div></div>
+      <div class="game-actions-top"><button class="iconbtn" id="memoryBtn" title="记忆">✦</button><button class="iconbtn" id="phoneBtn" title="手机">◌</button></div>
+    </div>
+
+    <section class="room" id="room">
+      <div class="wall"></div><div class="ceiling"></div><div class="window"><div class="view">CITY / LATE SUMMER</div></div><div class="rug"></div>
+      <div class="sofa"><div class="cush c1"></div><div class="cush c2"></div><div class="cush c3"></div></div>
+      <div class="table"><div class="leg l1"></div><div class="leg l2"></div><div class="mug"></div></div>
+      <div class="kitchen"><div class="cab a"></div><div class="cab b"></div><div class="counter"></div><div class="sink"></div><div class="fridge"></div></div>
+      <div class="door d1"><div class="handle"></div></div><div class="door d2"><div class="handle"></div></div>
+      <div class="plant"><div class="leaf l"></div><div class="leaf r"></div><div class="leaf c"></div><div class="pot"></div></div>
+      <div class="clockboard">NOW<b id="clockboard">08:30</b></div>
+      <div class="room-tag" id="roomTag">YOUR APARTMENT</div><div class="room-title" id="roomTitle">客厅</div><div class="room-sub" id="roomSub">这里还没有成为“家”。</div>
+
+      <button class="hotspot hs-sofa" data-hot="sofa"><span class="hotlabel">看看沙发</span></button>
+      <button class="hotspot hs-table" data-hot="table"><span class="hotlabel">看看桌子</span></button>
+      <button class="hotspot hs-kitchen" data-hot="kitchen"><span class="hotlabel">去厨房</span></button>
+      <button class="hotspot hs-milo-door" data-hot="miloDoor"><span class="hotlabel">米洛的房门</span></button>
+      <button class="hotspot hs-nora-door" data-hot="noraDoor"><span class="hotlabel">诺拉的房门</span></button>
+      <button class="hotspot hs-window" data-hot="window"><span class="hotlabel">窗外</span></button>
+      <button class="hotspot hs-rabbit" data-hot="rabbitSpot"><span class="hotlabel">那里好像有东西</span></button>
+      <button class="hotspot hs-phone" data-hot="floor"><span class="hotlabel">看看地上</span></button>
+
+      <div id="charMilo" class="char milo" data-char="milo"><div class="char-bubble" id="miloBubble">……</div><div class="char-body"></div></div>
+      <div id="charNora" class="char nora" data-char="nora"><div class="char-bubble" id="noraBubble">……</div><div class="char-body"></div></div>
+      <div id="charRabbit" class="char rabbit" data-char="rabbit"><div class="char-bubble" id="rabbitBubble">……</div><div class="char-body"></div></div>
+      <div id="charYou" class="char you" data-char="you"><div class="char-bubble">你</div><div class="char-body"></div></div>
+    </section>
+
+    <div class="below">
+      <div class="card control-card">
+        <div class="section-head"><strong>这一段时间，你想做什么？</strong><span class="hint" id="actionState">1 个主要行动</span></div>
+        <div class="timeline" id="timeline"></div>
+        <div class="actionrow" id="quickActions"></div>
+        <div class="next-row"><div class="turn-note" id="turnNote">先随便点点房间。虚线区域不会直接消耗时间。</div><button class="btn primary next" id="nextBtn" disabled>时间继续 →</button></div>
+      </div>
+      <div class="card side-card">
+        <div class="section-head"><strong>他们现在怎么看你</strong><span class="hint">不显示分数</span></div>
+        <div class="side-list" id="peopleList"></div>
+        <div class="memory-strip" id="memoryStrip"><b>最近记住</b>还没有什么值得记住的。</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="modal"><div class="sheet"><div class="sheet-head"><div class="sheet-title" id="modalTitle">标题</div><button class="close" id="closeModal">×</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='7days_game_v3';
+const clone=o=>JSON.parse(JSON.stringify(o));
+const initial=()=>({version:3,stage:'start',player:{name:'',gender:'',prefs:[]},day:1,block:0,location:'home',actionUsed:false,rel:{m:0,n:0,r:0},flags:{},mem:[],log:[],inv:[],seen:{},week:1});
+let s=initial();
+const $=id=>document.getElementById(id);
+const timeNames=['上午','下午','傍晚','深夜'];
+const times=['08:30','12:40','18:10','23:20'];
+const esc=x=>String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function save(){localStorage.setItem(KEY,JSON.stringify(s));$('saveState').textContent='已保存 · 本地'}
+function load(){try{const x=localStorage.getItem(KEY);if(x)s=Object.assign(initial(),JSON.parse(x))}catch(e){s=initial()}}
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>el.classList.remove('show'),1800)}
+function addMem(text){if(!s.mem.includes(text)){s.mem.unshift(text);s.mem=s.mem.slice(0,20)}}
+function addLog(text,tag='日常'){s.log.unshift({text,tag,day:s.day,block:s.block});s.log=s.log.slice(0,28)}
+function addInv(item){if(!s.inv.includes(item)){s.inv.push(item);addMem('你拿到：'+item)}}
+function relLabel(v){return v<=0?'陌生':v===1?'刚认识':v<=3?'有点熟':v<=5?'熟悉':v<=7?'会等你':'很亲近'}
+function relationshipTone(key){const v=s.rel[key];return relLabel(v)}
+function bump(key,n=1){s.rel[key]=Math.max(0,Math.min(10,s.rel[key]+n))}
+function phase(){return s.block===0?'morning':s.block===1?'afternoon':s.block===2?'evening':'night'}
+function setActionUsed(){s.actionUsed=true;save();renderGame()}
+function modal(title,body){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modal').classList.add('show')}
+function closeModal(){$('modal').classList.remove('show')}
+$('closeModal').onclick=closeModal;$('modal').onclick=e=>{if(e.target===$('modal'))closeModal()}
+
+function render(){
+  if(s.stage==='start'){ $('startScreen').style.display='grid'; $('setupScreen').style.display='none'; $('gameScreen').classList.remove('active'); return }
+  if(s.stage==='setup'){ $('startScreen').style.display='none'; $('setupScreen').style.display='block'; $('gameScreen').classList.remove('active'); renderSetup(); return }
+  $('startScreen').style.display='none'; $('setupScreen').style.display='none'; $('gameScreen').classList.add('active'); renderGame();
+}
+
+function renderSetup(){
+  const step=s.player.name?'2':'1';
+  $('setupScreen').innerHTML=`<div class="setup-head"><div><div class="setup-step">MOVE-IN SETUP · STEP ${step}</div><h1>先告诉这个世界一点点关于你。</h1><p>这些不是人格测试。没有“正确答案”。只是让后面的某些小事更像是<strong>你的</strong>这一周。</p></div><div class="pill">会被记住</div></div>
+  <div class="label-sm">你的名字 / 称呼</div><div class="name-row"><input id="nameInput" class="field" maxlength="12" placeholder="比如：Alano" value="${esc(s.player.name)}"><button class="btn ghost" id="randomName">随便一个称呼</button></div>
+  <div class="label-sm">你的性别</div><div class="gender">${[['female','女生'],['male','男生']].map(([v,t])=>`<button class="btn ${s.player.gender===v?'active':''}" data-gender="${v}">${t}</button>`).join('')}</div>
+  <div class="label-sm">搬家时，你最讨厌忘记什么？</div><div class="choice-grid">${prefCard('耳机','music','少了它，外界的声音太多。')}${prefCard('游戏机','game','至少得有东西陪你。')}${prefCard('书 / 笔记本','quiet','整理好以后才觉得安心。')}${prefCard('零食','sweet','住进新地方第一件事：先活下来。')}</div>
+  <div class="label-sm">第一晚，你更想怎么过？</div><div class="choice-grid">${prefCard('出去逛逛','explore','先把这座城市摸个大概。')}${prefCard('整理自己的东西','quiet','让房间先有一点“我的感觉”。')}${prefCard('找人聊天','social','总得先认识这里的人。')}${prefCard('直接睡觉','sleep','今天已经够长了。')}</div>
+  <div class="label-sm">有人突然约你出门，你通常？</div><div class="choice-grid">${prefCard('看心情','flex','不排斥，但得看当时的状态。')}${prefCard('如果有趣就去','explore','有点意思的话，我可能会突然出现。')}${prefCard('大概率会去','social','有人叫就不太想拒绝。')}${prefCard('先问清楚','quiet','至少让我知道我要去哪里。')}</div>
+  <div class="label-sm">你更容易记住别人什么？</div><div class="choice-grid">${prefCard('说过的话','memory','尤其是对方后来兑现没兑现。')}${prefCard('喜欢的东西','care','喜欢什么、讨厌什么，很容易记。')}${prefCard('奇怪的小习惯','observe','越小越忘不掉。')}${prefCard('对我的态度','emotion','别人怎么对我，我会记很久。')}</div>
+  <div style="display:flex;gap:8px;margin-top:18px"><button class="btn primary" id="finishSetup" style="flex:1">搬进去 →</button><button class="btn ghost" id="setupBack">返回</button></div>`;
+  $('nameInput').oninput=e=>s.player.name=e.target.value;
+  $('randomName').onclick=()=>{$('nameInput').value=['阿洛','Nico','小七','Aki'][Math.floor(Math.random()*4)];s.player.name=$('nameInput').value};
+  document.querySelectorAll('[data-gender]').forEach(b=>b.onclick=()=>{s.player.gender=b.dataset.gender;renderSetup()});
+  document.querySelectorAll('[data-pref]').forEach(b=>b.onclick=()=>{const tag=b.dataset.pref;if(!s.player.prefs.includes(tag))s.player.prefs.push(tag);else s.player.prefs=s.player.prefs.filter(x=>x!==tag);renderSetup()});
+  $('finishSetup').onclick=finishSetup;$('setupBack').onclick=()=>{s.stage='start';render()};
+}
+function prefCard(title,tag,sub){return `<button class="btn choice ${s.player.prefs.includes(tag)?'active':''}" data-pref="${tag}"><div class="mark">${s.player.prefs.includes(tag)?'✓':''}</div><strong>${title}</strong><span>${sub}</span></button>`}
+function finishSetup(){if(!s.player.name.trim()){toast('先给自己取个称呼吧');return}if(!s.player.gender){toast('选一个你想以什么身份进入这一周的自己');return}addLog('你完成了搬家前的小准备。这里会记住一些小偏好，但不会把你变成一个分数。','系统');addMem('第一天以前：这个世界记住了你的几个生活偏好。');s.stage='game';s.day=1;s.block=0;s.location='home';s.actionUsed=false;save();render();introArrival()}
+
+function introArrival(){
+  modal('你到了。',`<div class="scene-copy"><p>你拖着行李站在门口。房东只说了一个条件：</p><div class="say"><strong>“先住一周。觉得合适，就继续住。”</strong></div><p>门里传来游戏音效。</p><p><strong>“等一下——！”</strong></p><p>你还没决定要不要敲第二次，门就自己开了一条缝。</p><div style="margin-top:14px"><button class="btn primary" id="enterGame">推门进去</button></div></div>`);
+  $('enterGame').onclick=()=>{closeModal();toast('WEEK 1 · DAY 1');renderGame()}
+}
+
+function renderGame(){
+  $('dayText').textContent=`WEEK ${s.week} · DAY ${s.day}`;$('timeText').textContent=`${times[s.block]} · ${timeNames[s.block]}`;$('clockboard').textContent=times[s.block];$('dayProgress').style.width=((s.block)/3*100+1)+'%';
+  const state=phase();
+  const main=roomState();$('roomTag').textContent=main.tag;$('roomTitle').textContent=main.title;$('roomSub').textContent=main.sub;
+  updateCharacters();renderTimeline();renderQuickActions();renderPeople();renderMemory();
+  $('nextBtn').disabled=!s.actionUsed;$('actionState').textContent=s.actionUsed?'主要行动已完成':'1 个主要行动可用';
+  $('turnNote').textContent=s.actionUsed?'这个时间段不会再强制发生第二件大事。你可以看看房间，然后把时间往前推。':'你可以先随便点击房间里的东西。虚线区域是免费的探索。';
+  save();
+}
+function roomState(){
+  if(s.location==='city')return {tag:'CITY · WALKING',title:'城市的另一面',sub:'你不在公寓。这个世界不会暂停等你。'};
+  if(s.block===0)return {tag:'YOUR APARTMENT',title:'客厅',sub:'第一眼看上去，只是一间不错的房子。'};
+  if(s.block===1)return {tag:'YOUR APARTMENT',title:'午后',sub:'每个人都开始有自己的路线。'};
+  if(s.block===2)return {tag:'YOUR APARTMENT',title:'傍晚',sub:'灯打开以后，这里才有点像一起住的人。'};
+  return {tag:'YOUR APARTMENT',title:'深夜',sub:'声音变少了。奇怪的东西反而更容易被发现。'};
+}
+function updateCharacters(){
+  const chars={milo:$('charMilo'),nora:$('charNora'),rabbit:$('charRabbit')};
+  let m='……',n='……',r='……';
+  if(s.day===1&&s.block===0){m=s.flags.introduced?'“等一下。”':'刚醒。别催。';n='“你随便坐。”';r='盯着你的袋子。';}
+  else if(s.day===1&&s.block===1){m='排位中。';n='出去了。';r='在找吃的。';}
+  else if(s.day===1&&s.block===2){m='今天好像心情不错。';n='刚回来。';r='不太对劲。';}
+  else if(s.day===1&&s.block===3){m='房间很安静。';n='还没睡。';r='它在看那盏灯。';}
+  else if(s.day===2&&s.block===0){m='“你昨天记得什么？”';n='睡得不太好。';r='“我知道你会来的。”';}
+  else if(s.day===2&&s.block===1){m='研究一个东西。';n='在厨房。';r='偷吃。';}
+  else {m='在自己的事情里。';n='“嗯？”';r='又在观察。'}
+  $('miloBubble').textContent=m;$('noraBubble').textContent=n;$('rabbitBubble').textContent=r;
+  chars.milo.style.display=s.location==='city'?'none':'';chars.nora.style.display=s.location==='city'?'none':'';chars.rabbit.style.display='';$('charYou').style.display=s.location==='city'?'none':'';
+}
+function renderTimeline(){
+  $('timeline').innerHTML=timeNames.map((x,i)=>`<div class="tick ${i===s.block?'on':''} ${i<s.block?'done':''}"><small>${times[i]}</small><b>${x}</b></div>`).join('');
+}
+function renderPeople(){
+  $('peopleList').innerHTML=`<div class="mini"><div class="mini-top"><div class="dot" style="background:#ebe4f0">M</div><strong>米洛</strong></div><p>${esc(relationshipTone('m'))}<br>${s.rel.m>=3?'开始记你的习惯。':'还在观察你。'}</p></div><div class="mini"><div class="mini-top"><div class="dot" style="background:#eee3dc">N</div><strong>诺拉</strong></div><p>${esc(relationshipTone('n'))}<br>${s.rel.n>=3?'会把你说过的小事放在心里。':'没有主动靠近。'}</p></div><div class="mini"><div class="mini-top"><div class="dot" style="background:#f5e2e9">团</div><strong>绒团团</strong></div><p>${s.rel.r>=3?'已经有点黏你。':'正在观察你。'}<br>它显然知道得比一只兔子多。</p></div>`;
+}
+function renderMemory(){const first=s.mem[0]||'还没有什么值得记住的。';$('memoryStrip').innerHTML=`<b>最近记住</b>${esc(first)}`}
+
+function renderQuickActions(){
+  const acts=[];
+  if(s.location==='city'){
+    acts.push(actionBtn('cityshop','看看这家店','你只是路过。也许会买点东西。'),actionBtn('cityreturn','回公寓','看看你离开以后，家里有没有发生什么。'));
+  }else if(!s.actionUsed){
+    if(s.block===0){acts.push(actionBtn('talkMilo','去找米洛','他的房门没有完全关上。'),actionBtn('talkNora','和诺拉聊聊','她坐在餐桌边。'),actionBtn('rabbit','找绒团团','它已经盯你有一会儿了。'),actionBtn('city','自己出去','去看看这座城市。'))}
+    else if(s.block===1){acts.push(actionBtn('talkMilo','陪米洛做点事','可能是游戏，也可能是他临时起意。'),actionBtn('talkNora','去找诺拉','她应该在外面或者厨房。'),actionBtn('rabbit','陪绒团团','它最近有点过于了解你。'),actionBtn('city','出去一趟','不围着任何人转。'))}
+    else if(s.block===2){acts.push(actionBtn('talkMilo','和米洛待一会儿','他似乎想跟你说件小事。'),actionBtn('talkNora','和诺拉聊聊','她今天看起来有一点累。'),actionBtn('dinner','一起吃点东西','把晚饭变成一件共同的事。'),actionBtn('city','夜里出去','你还没完全习惯这座城市。'))}
+    else{acts.push(actionBtn('kitchenEvent','去厨房倒水','你只是渴了。真的。'),actionBtn('talkMilo','敲米洛的门','他应该还没睡。'),actionBtn('talkNora','找诺拉','她房间里还有灯。'),actionBtn('rabbit','陪绒团团','它今晚明显不太正常。'))}
+  }else{
+    acts.push(actionBtn('freePhone','看看手机','不消耗主要行动。'),actionBtn('freeDesk','翻翻自己的东西','你总得知道自己带了什么。'),actionBtn('freeWindow','看看窗外','不需要任何理由。'),actionBtn('freeRabbit','摸摸绒团团','它自己跑过来了。'));
+  }
+  $('quickActions').innerHTML=acts.join('');document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>doAction(b.dataset.act));
+}
+function actionBtn(a,title,sub){return `<button class="btn ${a==='city'?'':'ghost'}" data-act="${a}"><div style="font-weight:900;font-size:13px">${title}</div><div class="tiny">${sub}</div></button>`}
+
+function doAction(a){
+  if(a==='freePhone'){modal('手机 · 18:21',`<div class="scene-copy"><p>你打开手机。</p><div class="say">朋友：<br>“新地方怎么样？”</div><p>你打了几个字，又删掉。</p><p class="tiny">你还没有想好怎么形容这一天。</p></div>`);return}
+  if(a==='freeDesk'){modal('你的东西',`<div class="scene-copy"><p>耳机、书、几件衣服、一点零食。</p><p>你突然发现自己带来的东西，居然很像某种小小的自画像。</p><div class="meterless"><div class="box"><small>偏好</small><b>${s.player.prefs.includes('game')?'游戏':'安静'}</b></div><div class="box"><small>习惯</small><b>${s.player.prefs.includes('care')?'记细节':'随性'}</b></div><div class="box"><small>现在</small><b>${esc(s.player.name)}</b></div></div></div>`);return}
+  if(a==='freeWindow'){modal('窗外',`<div class="scene-copy"><p>对面楼的灯一盏一盏亮起来。</p><p>你忽然有点确定：这次搬家，不会只是“住一阵子”这么简单。</p></div>`);return}
+  if(a==='freeRabbit'){bump('r',1);addMem('绒团团主动靠近你。');modal('绒团团',`<div class="scene-copy"><p>你蹲下来。</p><p>绒团团看你一眼，又把脑袋塞进你手心。</p><div class="say">“摸一下就够了哦 (ᵔᴥᵔ)”</div><p class="tiny">它说得像自己很有原则。</p></div>`);save();renderGame();return}
+  if(a==='talkMilo'){eventMilo();return}
+  if(a==='talkNora'){eventNora();return}
+  if(a==='rabbit'){eventRabbit();return}
+  if(a==='dinner'){eventDinner();return}
+  if(a==='kitchenEvent'){eventKitchen();return}
+  if(a==='city'){eventCity();return}
+  if(a==='cityshop'){eventCityShop();return}
+  if(a==='cityreturn'){s.location='home';s.actionUsed=true;addLog('你回到公寓。你不在的时候，家里似乎也发生了一点变化。','回家');save();renderGame();return}
+}
+
+function consume(tag='行动'){s.actionUsed=true;addLog(tag+' · 你做了一件会改变这一段时间的事。','行动');save()}
+function eventMilo(){if(s.actionUsed){toast('这一段时间的主要行动已经用掉了');return}consume('米洛');bump('m',1);s.flags.miloTalked=(s.flags.miloTalked||0)+1;let html='';
+  if(s.day===1&&s.block===0){s.flags.introduced=true;addMem('米洛：嘴上很会吹，实际找东西能找半天。');html=`<div class="scene-copy"><p>你敲门。</p><div class="say">“等一下——！”</div><p>三十秒以后没动静。</p><p>你又敲。</p><div class="say">“我说了等一下！”</div><p>门终于开了。</p><p>米洛一手扶着门，一手还拿着游戏手柄。</p><div class="say">“你好。米洛。刚刚那个不算第一印象。”</div><p>他看了你一眼。</p><div class="say">“……你叫什么？”</div></div>`}
+  else if(s.player.prefs.includes('game')){addMem('米洛发现你喜欢游戏。');html=`<div class="scene-copy"><p>米洛不知道从哪里摸出第二个手柄。</p><div class="say">“来。你玩不玩？”</div><p>你们打了一局。</p><p>他输了。</p><p>米洛盯着屏幕三秒。</p><div class="say">“这把不算。”</div><p>你笑了。</p><div class="say">“不是，真的不算。”</div><p class="tiny">他明显把输得很认真这件事藏在了玩笑里。</p></div>`}
+  else if(s.day===2){addMem('米洛开始主动记你的习惯。');html=`<div class="scene-copy"><p>你经过客厅的时候，米洛突然叫住你。</p><div class="say">“等一下。”</div><p>他把一个东西递给你。</p><div class="say">“昨天你不是说你喜欢这个？”</div><p>你愣了一下。</p><div class="say">“路过看到的。随便买的。”</div><p>你低头一看。</p><p>他明显记得比你以为的多。</p></div>`;addInv('米洛随手买给你的东西')}
+  else{html=`<div class="scene-copy"><p>米洛靠在沙发上。</p><div class="say">“你有没有觉得，住一起以后认识一个人特别快？”</div><p>停了一秒。</p><div class="say">“比如你现在已经知道我房间很乱了。”</div><p>他笑。</p><div class="say">“但你还不知道我其实挺会照顾人的。”</div></div>`}
+  modal('米洛',html+`<div class="event-choices"><button class="event-choice" id="m1"><strong>“你可以证明一下。”</strong><span>轻轻逗回去。</span></button><button class="event-choice" id="m2"><strong>“我还没决定信不信你。”</strong><span>不让他太容易得逞。</span></button></div>`);
+  $('m1').onclick=()=>{bump('m',1);addMem('你第一次主动拿米洛开玩笑。');closeModal();renderGame()};$('m2').onclick=()=>{bump('m',1);addMem('你没有立刻相信米洛。');closeModal();renderGame()};
+}
+function eventNora(){if(s.actionUsed){toast('这一段时间的主要行动已经用掉了');return}consume('诺拉');bump('n',1);let html='';
+  if(s.day===1&&s.block===0){addMem('诺拉：说话很直接，但并不冷。');html=`<div class="scene-copy"><p>诺拉坐在餐桌边。</p><p>她抬眼看你一秒。</p><div class="say">“新来的？”</div><p>“嗯。”</p><div class="say">“行。你先随便住。”</div><p>她把旁边的椅子拉开。</p><div class="say">“你吃早餐吗？”</div><p>语气很平。</p><p>但她已经把另一个杯子推到你面前。</p></div>`}
+  else if(s.day===2&&s.block===1){addMem('诺拉今天看起来有点累，但她不太想解释。');html=`<div class="scene-copy"><p>你在厨房碰到诺拉。</p><p>她把水杯放下。</p><div class="say">“今天别问我怎么了。”</div><p>你甚至还没开口。</p><p>她看了你一眼。</p><div class="say">“……但你可以坐这儿。”</div></div>`}
+  else{html=`<div class="scene-copy"><p>诺拉站在窗边。</p><div class="say">“你觉得一个人住得舒服，还是有人在旁边更舒服？”</div><p>她问得很随意。</p><p>但没有看你。</p></div>`}
+  modal('诺拉',html+`<div class="event-choices"><button class="event-choice" id="n1"><strong>“看是谁。”</strong><span>你不急着给答案。</span></button><button class="event-choice" id="n2"><strong>“有人在旁边也挺好。”</strong><span>有时候陪伴本身就是答案。</span></button></div>`);
+  $('n1').onclick=()=>{bump('n',1);addMem('你没有把诺拉的问题回答得太快。');closeModal();renderGame()};$('n2').onclick=()=>{bump('n',2);addMem('诺拉知道你并不排斥亲近的人。');closeModal();renderGame()};
+}
+function eventRabbit(){if(s.actionUsed){toast('这一段时间的主要行动已经用掉了');return}consume('绒团团');bump('r',1);if(s.player.prefs.includes('sweet'))addInv('一包甜食');
+ const strange=s.day===1&&s.block===3;
+ let html;if(strange){s.flags.anomaly=true;addMem('绒团团说了一句不该知道的话。');html=`<div class="scene-copy"><p>深夜。</p><p>绒团团本来趴在沙发边，突然抬头。</p><div class="say">“你今天第一次进门的时候，厨房灯是亮的。”</div><p>你一愣。</p><div class="say">“可它明明昨天才坏掉。”</div><p>它说完就低头继续舔自己的爪子。</p><p>像什么都没有发生。</p></div>`}else{html=`<div class="scene-copy"><p>绒团团钻到你旁边。</p><div class="say">“今天的人类比昨天有趣。”</div><p>你：“……？”</p><div class="say">“没什么 (ᵔᴥᵔ)”</div><p>它咬走你手里的零食。</p></div>`}
+ modal('绒团团',html+`<div class="event-choices"><button class="event-choice" id="r1"><strong>继续追问。</strong><span>你不喜欢被它说一半就算了。</span></button><button class="event-choice" id="r2"><strong>先不问。</strong><span>有些东西现在知道反而没意思。</span></button></div>`);
+ $('r1').onclick=()=>{addMem('你决定追问绒团团的奇怪话。');closeModal();toast('它没有回答。');renderGame()};$('r2').onclick=()=>{addMem('你选择先不追问。');closeModal();renderGame()};
+}
+function eventDinner(){if(s.actionUsed){toast('这一段时间的主要行动已经用掉了');return}consume('晚饭');bump('m',1);bump('n',1);addMem('第一次一起吃东西。');modal('18:10 · 晚饭',`<div class="scene-copy"><p>你们很少真正同时坐在一张桌子前。</p><p>米洛先开始讲话。</p><div class="say">“我跟你说，这附近有一家店……”</div><p>诺拉直接打断。</p><div class="say">“你上次说那家很难吃。”</div><p>米洛沉默。</p><p>三秒以后：</p><div class="say">“我那次状态不好。”</div><p>你突然觉得，这两个人大概已经这样互相拆台很多年了。</p></div><div class="event-choices"><button class="event-choice" id="d1"><strong>加入吐槽米洛。</strong><span>今天的米洛看起来很容易逗。</span></button><button class="event-choice" id="d2"><strong>帮米洛说一句。</strong><span>友情当然从站队开始。</span></button></div>`);$('d1').onclick=()=>{bump('m',1);addMem('你和诺拉一起吐槽了米洛。');closeModal();renderGame()};$('d2').onclick=()=>{bump('m',2);addMem('你在诺拉面前帮米洛说了句话。');closeModal();renderGame()}}
+function eventKitchen(){if(s.actionUsed){toast('这一段时间的主要行动已经用掉了');return}consume('厨房');if(s.day===1&&s.block===3){eventRabbit();return}modal('厨房 · 灯',`<div class="scene-copy"><p>你只是想倒杯水。</p><p>开灯。</p><p>没问题。</p><p>关灯。</p><p>……</p><p>你再开一次。</p><div class="say">啪。</div><p>灯晚亮了半秒。</p><p class="tiny">也许只是线路问题。至少现在，没有别的解释。</p></div><div class="event-choices"><button class="event-choice" id="k1"><strong>看一眼配电箱。</strong><span>不消耗第二个时间段。</span></button><button class="event-choice" id="k2"><strong>算了，回客厅。</strong><span>这只是灯。</span></button></div>`);$('k1').onclick=()=>{addMem('厨房的灯比想象中慢半拍。');closeModal();renderGame()};$('k2').onclick=()=>{closeModal();renderGame()}}
+function eventCity(){if(s.actionUsed){toast('这一段时间的主要行动已经用掉了');return}consume('出门');s.location='city';modal('你出门了。',`<div class="scene-copy"><p>门在你身后关上。</p><p>城市的声音突然比公寓大很多。</p><p>你没有特别想去哪里。</p><p>但你突然意识到：</p><div class="say"><strong>这七天里，最容易改变你生活的，可能不是别人，而是你自己怎么花掉这些时间。</strong></div></div><div class="event-choices"><button class="event-choice" id="c1"><strong>去看看街角的小店。</strong><span>也许会遇到一个新的东西。</span></button><button class="event-choice" id="c2"><strong>先回去。</strong><span>你还挺想看看他们在干什么。</span></button></div>`);$('c1').onclick=()=>{closeModal();addLog('你在城市里多待了一会儿。','出门');save();renderGame()};$('c2').onclick=()=>{s.location='home';closeModal();renderGame()}}
+function eventCityShop(){addInv('城市里买的小东西');addMem('你开始有一条自己的城市路线。');modal('街角小店',`<div class="scene-copy"><p>你随便挑了个小东西。</p><p>回家的路居然已经记住了。</p><div class="say">“嗯。以后应该会常来。”</div></div><button class="btn primary" id="backCity" style="margin-top:12px;width:100%">回公寓</button>`);$('backCity').onclick=()=>{s.location='home';closeModal();renderGame()}}
+
+function advanceTime(){
+  if(!s.actionUsed){toast('先做一件主要的事。或者你也可以选择“什么都不做”。');return}
+  if(s.block<3){s.block++;s.actionUsed=false;s.location='home';const texts=['午后开始了。','天快黑了。','夜深了。'];addLog(texts[s.block-1],'时间');if(s.day===1&&s.block===3&&!s.flags.anomaly)addMem('绒团团似乎一直在等夜里。');save();renderGame();return}
+  endDay();
+}
+function endDay(){
+  addLog(`DAY ${s.day} 结束。`,'DAY');
+  if(s.day===1){s.day=2;s.block=0;s.actionUsed=false;s.location='home';s.flags.day1done=true;save();modal('DAY 1 · 你学会了回家',`<div class="scene-copy"><p>今天没有发生什么足以登上新闻的事情。</p><p>但你已经知道：</p><p>米洛会嘴硬。</p><p>诺拉不会什么都说。</p><p>绒团团知道的东西，不应该那么多。</p><div class="say"><strong>明天，你会更熟悉这里。也更容易发现一些以前看不见的东西。</strong></div></div><button class="btn primary" id="day2" style="width:100%;margin-top:12px">进入 DAY 2 →</button>`);$('day2').onclick=()=>{closeModal();renderGame();toast('DAY 2 · 你回来了')};
+  }else if(s.day===2){s.day=3;s.block=0;s.actionUsed=false;s.location='home';save();modal('DAY 2 · 某些事情开始被记住',`<div class="scene-copy"><p>第二天结束时，你已经不是完全的陌生人。</p><p>有人记住了你的偏好。</p><p>你也开始记住他们不说出口的东西。</p><div class="say"><strong>DAY 3 · 有些关系会开始偏离最初的样子。</strong></div></div><button class="btn primary" id="day3" style="width:100%;margin-top:12px">进入 DAY 3 →</button>`);$('day3').onclick=()=>{closeModal();renderGame();toast('DAY 3 · 世界开始变复杂')};
+  }else{endWeek();}
+}
+function endWeek(){modal('这一版原型到这里',`<div class="scene-copy"><p>你已经完成了目前这个可玩的垂直切片。</p><p>后续版本会继续加入：</p><p>更完整的 DAY 3–7 · 更多房间 · 更多物品 · 关系分化 · 稀有事件 · 玩家记忆 · 绒团团真正的秘密。</p><div class="say"><strong>最重要的是：现在你已经不是在“做一个测试网页”了。它开始是一个游戏。</strong></div></div>`)}
+
+function openMemory(){
+ const logs=s.mem.length?s.mem.map((m,i)=>`<div class="box" style="margin-bottom:7px"><small>MEMORY ${String(i+1).padStart(2,'0')}</small><b>${esc(m)}</b></div>`).join(''):'<div class="tiny">你还没有记住什么。</div>';
+ modal('MEMORY · 这周留下的东西',`${logs}<div style="margin-top:12px"><span class="pill">关系</span> 米洛：${relLabel(s.rel.m)} · 诺拉：${relLabel(s.rel.n)} · 绒团团：${relLabel(s.rel.r)}</div>`)
+}
+function openPhone(){modal('手机',`<div class="scene-copy"><p>通知：</p><div class="say">米洛：你看到我充电线没？</div><div class="say">诺拉：回来记得带水。</div><div class="say">一个陌生号码：……</div><p class="tiny">你还没决定第三条是不是应该点开。</p></div><div class="event-choices"><button class="event-choice" id="p1"><strong>点开陌生号码</strong><span>也许是广告。也许不是。</span></button><button class="event-choice" id="p2"><strong>忽略</strong><span>今天已经够多事了。</span></button></div>`);$('p1').onclick=()=>{addMem('手机里出现过一个陌生号码。');toast('暂无内容。也许以后。');closeModal()};$('p2').onclick=closeModal}
+$('memoryBtn').onclick=openMemory;$('phoneBtn').onclick=openPhone;$('nextBtn').onclick=advanceTime;
+
+document.querySelectorAll('[data-hot]').forEach(el=>el.onclick=()=>hotspot(el.dataset.hot));
+document.querySelectorAll('[data-char]').forEach(el=>el.onclick=()=>character(el.dataset.char));
+function hotspot(h){
+  if(h==='kitchen'){modal('厨房',`<div class="scene-copy"><p>冰箱里有水、果汁，以及一个明显不属于你的甜点盒。</p><p>盒子上写着：<strong>别动。</strong></p><p class="tiny">你决定暂时尊重一下别人的东西。</p></div>`);return}
+  if(h==='miloDoor'){eventMilo();return}
+  if(h==='noraDoor'){eventNora();return}
+  if(h==='rabbitSpot'){eventRabbit();return}
+  if(h==='window'){modal('窗外',`<div class="scene-copy"><p>城市看上去很远。</p><p>但你已经开始记得这片街区的某些灯了。</p></div>`);return}
+  if(h==='table'){modal('桌子',`<div class="scene-copy"><p>桌上有三个杯子。</p><p>你还不知道哪个是谁的。</p><p>但米洛的杯子很可能就是那个最花哨的。</p></div>`);return}
+  if(h==='sofa'){modal('沙发',`<div class="scene-copy"><p>这里似乎是这个家的“公共领土”。</p><p>你坐下来以后，会很自然地开始听见别人生活的声音。</p></div>`);return}
+  if(h==='floor'){modal('地上',`<div class="scene-copy"><p>一根耳机线。</p><p>不是你的。</p><p>你认出是米洛的。</p></div>`)}
+}
+function character(c){if(c==='milo')eventMilo();else if(c==='nora')eventNora();else if(c==='rabbit')eventRabbit();else modal('你',`<div class="scene-copy"><p>${esc(s.player.name)}。</p><p>你站在这个房子里。</p><p>目前还没有谁知道，你最后会把这里当成什么。</p></div>`)}
+
+$('startBtn').onclick=()=>{s.stage='setup';render()};$('demoBtn').onclick=()=>{s.stage='game';s.player={name:'你',gender:'',prefs:['game','sweet','observe','care']};s.day=1;s.block=0;s.actionUsed=false;s.rel={m:2,n:1,r:2};addMem('DEMO：系统会记住你的偏好。');save();render();toast('DEMO · 先看看这个版本的“游戏感”');};
+load(); if(location.search.includes('demo')){s.stage='game';s.player={name:'你',gender:'',prefs:['game','sweet','observe','care']};s.day=1;s.block=1;s.actionUsed=false;s.rel={m:3,n:2,r:3};s.mem=['系统记住：你喜欢游戏、甜食，也会注意别人的小习惯。'];s.location='home';} render();
+</script>
+</body>
+</html>
